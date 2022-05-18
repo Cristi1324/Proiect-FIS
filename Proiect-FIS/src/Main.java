@@ -37,6 +37,7 @@ public class Main extends JFrame {
 		setContentPane(contentPane);
 		//hei
 		//ce faceti?
+		//fcfgvhgv
 	}
 
 }
