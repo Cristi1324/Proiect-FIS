@@ -1,0 +1,9 @@
+Potential todo list for my calendar project
+- Add a small graphic for each button on the year panel, so it depends on the density of events in the months of that year
+- Add several hover-over options for buttons and such
+- Add hotkeys for everthing
+- Add focus listeners for stuff (research this)
+- make it so you can add monthly or weekly things that depend on weekday (remember i would have to modify the loaded panel list accordingly when changing these)
+- after 6), make a generateDefaultFile() function
+- Add a color changing option
+- Change the color of generated panels if it's today's date
