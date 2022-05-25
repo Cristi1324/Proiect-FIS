@@ -1,9 +1,7 @@
-//Brandon Mazur - CSCI230 Final Project
 
+package a;
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.StringTokenizer;
@@ -11,7 +9,7 @@ import java.util.StringTokenizer;
 public abstract class CalendarEvent implements MouseListener, Comparable<CalendarEvent> {
 
     protected int year, month, day;
-    protected String title, description;
+    protected String title, description, time;
     protected ModificationPanel modref;
     private int mouseClicks;
 
@@ -21,7 +19,7 @@ public abstract class CalendarEvent implements MouseListener, Comparable<Calenda
         month = Integer.parseInt(st.nextToken());
         day = Integer.parseInt(st.nextToken());
         title = st.nextToken();
-        //description field is optional
+        time=st.nextToken();
         description = st.hasMoreTokens() ? st.nextToken() : "";
     }
 
@@ -53,6 +51,7 @@ public abstract class CalendarEvent implements MouseListener, Comparable<Calenda
     public String getTitle() {
         return title;
     }
+   
 
     @Override
     public void mousePressed(MouseEvent e) { }
@@ -73,7 +72,7 @@ public abstract class CalendarEvent implements MouseListener, Comparable<Calenda
     @Override
     public void mouseClicked(MouseEvent e) {
 
-        //simulate a double click
+    	//simulate a double click
         mouseClicks++;
         if (mouseClicks == 2) {
             mouseClicks = 0;
@@ -85,7 +84,7 @@ public abstract class CalendarEvent implements MouseListener, Comparable<Calenda
     @Override
     public int compareTo(CalendarEvent o) {
 
-        //comparing to sort events
+    	  //comparing to sort events
         if (year != o.getYear())
             return year - o.getYear();
 
@@ -97,10 +96,12 @@ public abstract class CalendarEvent implements MouseListener, Comparable<Calenda
 
         else return o.getType() - this.getType();
     }
+   
+
 
     public abstract String getCalendarText();
     public abstract int createCalendarPanel(JPanel contentPane);
     public abstract void prepareModPanel();
     public abstract int getType();
-    public abstract JPanel getTodoPanel(JPanel contentPane);
+
 }

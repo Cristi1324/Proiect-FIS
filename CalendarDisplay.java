@@ -1,5 +1,5 @@
-//Brandon Mazur - CSCI230 Final Project
 
+package a;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.StringTokenizer;
 
+@SuppressWarnings({ "serial", "unused" })
 public class CalendarDisplay extends JPanel {
 
     private JLabel timeTitle;
@@ -22,9 +23,9 @@ public class CalendarDisplay extends JPanel {
     private boolean weeksShown;
     private ArrayList<String>[] loadedPanels;
 
-    public CalendarDisplay(String current_date, PlannerDisplay inref) {
+    @SuppressWarnings("unchecked")
+	public CalendarDisplay(String current_date, PlannerDisplay inref) {
 
-        //prepare panel basics
         outref = inref;
         this.parseDate(current_date);
         this.setLayout(new BorderLayout());
@@ -35,36 +36,30 @@ public class CalendarDisplay extends JPanel {
         for (int i = 0; i < Consts.NUM_MAIN_PANELS; i++)
             loadedPanels[i] = new ArrayList<>();
 
-        //prepare buttons
         timeTitle = new JLabel("<html><font size='6' color='#000000'>"
                 + Consts.MONTH_NAME[month - 1] + ' ' + year + "</font></html>");
-        JButton next = new JButton(new ImageIcon("right_arrow.png"));
-        JButton back = new JButton(new ImageIcon("left_arrow.png"));
-        JButton taskButton = new JButton(new ImageIcon("newtask.png"));
-        out = new JButton(new ImageIcon("out_arrow.png"));
-        JButton todoButton = new JButton(new ImageIcon("checklist.png"));
+        JButton next = new JButton(new ImageIcon(CalendarDisplay.class.getResource("/a/right_arrow.png")));
+        JButton back = new JButton(new ImageIcon(CalendarDisplay.class.getResource("/a/left_arrow.png")));
+        JButton taskButton = new JButton(new ImageIcon(CalendarDisplay.class.getResource("/a/newtask.png")));
+        out = new JButton(new ImageIcon(CalendarDisplay.class.getResource("/a/out_arrow.png")));
         next.setBackground(Consts.buttonbg);
         back.setBackground(Consts.buttonbg);
         taskButton.setBackground(Consts.buttonbg);
         out.setBackground(Consts.buttonbg);
-        todoButton.setBackground(Consts.buttonbg);
         next.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         back.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         taskButton.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         out.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        todoButton.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         next.setPreferredSize(new Dimension(60,40));
         back.setPreferredSize(new Dimension(60,40));
         taskButton.setPreferredSize(new Dimension(50,100));
         out.setPreferredSize(new Dimension(50,100));
-        todoButton.setPreferredSize(new Dimension(50,100));
         next.addActionListener(this.getActionListener(Consts.NEXT_LISTENER));
         back.addActionListener(this.getActionListener(Consts.PREV_LISTENER));
         taskButton.addActionListener(this.getActionListener(Consts.TASK_LISTENER));
         out.addActionListener(this.getActionListener(Consts.OUT_LISTENER));
         taskButton.setActionCommand("default");
-        todoButton.addActionListener(this.getActionListener(Consts.TODO_LISTENER));
-
+        
         //prepare top panel
         JPanel topPanel = new JPanel();
         topPanel.setLayout(new FlowLayout());
@@ -74,12 +69,12 @@ public class CalendarDisplay extends JPanel {
         topPanel.add(Box.createRigidArea(new Dimension(50,0)));
         topPanel.add(next);
         topPanel.setOpaque(false);
-
+        
         //prepare right panel
         JPanel rightPanel = new JPanel(new GridLayout(3,1,0,95));
         rightPanel.setBorder(BorderFactory.createEmptyBorder(5,5,50,5));
         rightPanel.add(out);
-        rightPanel.add(todoButton);
+      //  rightPanel.add(todoButton);
         rightPanel.add(taskButton);
         rightPanel.setOpaque(false);
 
@@ -91,6 +86,7 @@ public class CalendarDisplay extends JPanel {
             centerPanel.add(mainPanel[i], Consts.cardNames[i]);
         }
 
+        
         //prepare the weekdays displayed at the bottom of the screen
         JLabel[] weekdays = new JLabel[7];
         weekdaysPanel = new JPanel(new GridLayout(0,7));
@@ -102,12 +98,14 @@ public class CalendarDisplay extends JPanel {
             weekdaysPanel.add(weekdays[i]);
         }
 
+        
         //finish panel
         this.add(topPanel, BorderLayout.NORTH);
         this.add(weekdaysPanel, BorderLayout.SOUTH);
-        this.add(centerPanel, BorderLayout.CENTER);
+        this.add(centerPanel, BorderLayout.CENTER);http:
         this.add(rightPanel, BorderLayout.WEST);
 
+        
         //set up first-time display
         displayStatus = Consts.MONTH;
         weeksShown = true;
@@ -126,6 +124,7 @@ public class CalendarDisplay extends JPanel {
         //disable out button if displaying year
         out.setEnabled(displayStatus != Consts.YEAR);
 
+        
         //construct string for loaded panels
         if (displayStatus == Consts.YEAR)
             date = Integer.toString(year);
@@ -152,6 +151,7 @@ public class CalendarDisplay extends JPanel {
             date = day + "/" + month + "/" + year;
         }
 
+        
         //load previously generated panels if possible
         itr = loadedPanels[displayStatus].iterator();
         while (itr.hasNext()) {
@@ -164,7 +164,7 @@ public class CalendarDisplay extends JPanel {
         //otherwise create a new panel
         if (!loaded) {
 
-            JPanel newPanel = null; //to satisfy compiler
+            JPanel newPanel = null;  //to satisfy compiler
             switch (displayStatus) {
                 case Consts.YEAR: newPanel = prepareYear(); break;
                 case Consts.MONTH: newPanel = prepareMonth(); break;
@@ -181,7 +181,7 @@ public class CalendarDisplay extends JPanel {
             case Consts.YEAR: timeTitle.setText("<html><font size='6' color='#000000'>" + year + "</font></html>"); break;
             case Consts.MONTH: timeTitle.setText("<html><font size='6' color='#000000'>"
                     + Consts.MONTH_NAME[month - 1] + ' ' + year + "</font></html>"); break;
-            case Consts.WEEK: timeTitle.setText("<html><font size='6' color='#000000'> Week of "
+            case Consts.WEEK: timeTitle.setText("<html><font size='6' color='#000000'> Saptamana "
                     + Consts.MONTH_NAME[month - 1].substring(0,3) + ' ' + day + "</font></html>"); break;
             default: System.err.println("Error in updateDisplay() - displayStatus mismatch"); System.exit(1);
         }
@@ -207,30 +207,32 @@ public class CalendarDisplay extends JPanel {
         int tempMonth = month;
         int tempYear = year;
 
-        //set iterators to the current days
         
-
         //prepare each daily panel
         for (int i = 0; i < 7; i++) {
 
-            //prepare a panel for each day
+        	
+        	 //prepare a panel for each day
             dayPanel[i] = new JPanel();
             dayPanel[i].setLayout(new BoxLayout(dayPanel[i], BoxLayout.Y_AXIS));
             dayPanel[i].setBackground(new Color(250 - 10*i,255,255));
 
+            
             //label for each panel
             JLabel dayLabel = new JLabel("<html><font size='5' color='#000000'>" +
                     Consts.MONTH_NAME[tempMonth - 1].substring(0,3) + ' ' + tempDay + "</font></html>");
+            
 
-            //task button for each panel
-            JButton dayButton = new JButton(new ImageIcon("newtask.png"));
+          //task button for each panel
+            JButton dayButton = new JButton(new ImageIcon(CalendarDisplay.class.getResource("/a/newtask.png")));
             dayButton.setBackground(Consts.buttonbg);
             dayButton.setBorder(BorderFactory.createLineBorder(Color.BLACK));
             dayButton.setPreferredSize(new Dimension(50,50));
             dayButton.addActionListener(this.getActionListener(Consts.TASK_LISTENER));
             dayButton.setActionCommand(tempDay + "/" + tempMonth + "/" + tempYear);
 
-            //create panel for day and button
+            
+          //create panel for day and button
             JPanel topPanel = new JPanel();
             dayPanel[i].add(topPanel);
             topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.X_AXIS));
@@ -269,8 +271,7 @@ public class CalendarDisplay extends JPanel {
             	
             }
 
-            //load regular events into day
-
+           
             //set the final dynamically calculated size of the panel
             dayPanel[i].setPreferredSize(new Dimension(120, height));
 
@@ -279,7 +280,7 @@ public class CalendarDisplay extends JPanel {
             scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
             scroll.setBorder(BorderFactory.createMatteBorder(2,1,2,1, Color.BLACK));
 
-            //add components to main panel
+          //add components to main panel
             output.add(scroll);
 
             //increment the day
@@ -314,7 +315,7 @@ public class CalendarDisplay extends JPanel {
         labelText = new String[numDays];
         numEntries = new int[numDays];
 
-        //prepare the day for each label
+      //prepare the day for each label
         for (int i = 0; i < numDays; i++)
             labelText[i] = "";
 
@@ -333,7 +334,7 @@ public class CalendarDisplay extends JPanel {
         for (int i = 0; i < startingWeekday; i++, count++)
             output.add(Box.createRigidArea(daySize));
 
-        //create each button and add it to panel
+      //create each button and add it to panel
         for (int i = 0; i < numDays; i++, count++) {
             buttons[i] = new JButton();
             buttons[i].setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -343,13 +344,14 @@ public class CalendarDisplay extends JPanel {
             output.add(buttons[i]);
         }
 
-        //pack the calendar to make all months look consistent
+      //pack the calendar to make all months look consistent
         while (count < 42) {
             output.add(Box.createRigidArea(daySize));
             count++;
         }
 
-        //grab the contents of events from the current month
+        
+      //grab the contents of events from the current month
         Iterator<CalendarEvent> itr = outref.data.iterator();
         CalendarEvent tempEvent;
         while (itr.hasNext()) {
@@ -381,7 +383,7 @@ public class CalendarDisplay extends JPanel {
             }
         }
 
-        //add proper text from data to each button
+      //add proper text from data to each button
         for (int i = 0; i < numDays; i++) {
             JLabel tempLabel = new JLabel("<html><b><font size='5'>" + Integer.toString(i + 1)
                     + "</b></font><font size='2'>" + labelText[i] + "<br><br><br><br><br><br></font></html>");
@@ -403,15 +405,15 @@ public class CalendarDisplay extends JPanel {
         JButton monthButton;
 
         for (int i = 0; i < 12; i++) {
-
-            //create each month panel and set it up
+        	
+        	 //create each month panel and set it up
             monthPanel = new JPanel();
             monthPanel.setLayout(new BorderLayout());
             monthPanel.setBackground(new Color(250 - i*8, 255, 255));
             monthPanel.setBorder(BorderFactory.createMatteBorder(2,2,2,2, Color.BLACK));
 
-            //set up and color the button
-            monthButton = new JButton("<html><font size='6' color='#000000'>"
+          //set up and color the button
+            monthButton = new JButton("<html><font size='6' color='#00000'>"
                     + Consts.MONTH_NAME[i] + "</font></html>");
             monthButton.setAlignmentX(JComponent.CENTER_ALIGNMENT);
             monthButton.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -431,7 +433,7 @@ public class CalendarDisplay extends JPanel {
 
         switch (code) {
 
-            //listener for the forward button
+        //listener for the forward button
             case Consts.NEXT_LISTENER : return new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -440,7 +442,7 @@ public class CalendarDisplay extends JPanel {
 
                         case Consts.YEAR: {
 
-                            //calculate new weekday
+                        	 //calculate new weekday
                             weekday -= day - 1;
                             day = 1;
                             while (month <= 12) {
@@ -459,7 +461,6 @@ public class CalendarDisplay extends JPanel {
 
                         case Consts.MONTH: {
 
-                            //calculate new weekday
                             weekday += Consts.DAYS_IN_MONTH[month - 1] - day + 1;
                             if (month == 2 && year % 4 == 0)
                                 weekday++;
@@ -480,7 +481,6 @@ public class CalendarDisplay extends JPanel {
 
                         case Consts.WEEK: {
 
-                            //calculate new weekday
                             for (int i = 0; i < 7; i++) {
                                 day++;
                                 if (month == 2 && year % 4 == 0 ? day > 29 : day > Consts.DAYS_IN_MONTH[month - 1]) {
@@ -509,7 +509,6 @@ public class CalendarDisplay extends JPanel {
 
                         case Consts.YEAR: {
 
-                            //calculate new weekday
                             weekday -= day - 1;
                             while (month > 1) {
                                 month--;
@@ -526,7 +525,6 @@ public class CalendarDisplay extends JPanel {
                             break;
                         }
 
-                        //calculate new weekday
                         case Consts.MONTH: {
                             month--;
                             if (month == 0) {
@@ -546,7 +544,6 @@ public class CalendarDisplay extends JPanel {
                             break;
                         }
 
-                        //calculate new weekday
                         case Consts.WEEK: {
 
                             for (int i = 0; i < 7; i++) {
@@ -590,9 +587,6 @@ public class CalendarDisplay extends JPanel {
                 @Override
                 public void actionPerformed(ActionEvent e) {
 
-                    //prepare and display todolist panel
-                    outref.todoPanel.clearPanel();
-                    outref.todoPanel.loadPanel();
                     outref.backToCalendar = false;
                     outref.currentPanel = outref.getTodoCard();
                     ((CardLayout)outref.getLayout()).show(outref, outref.getTodoCard());
@@ -604,7 +598,7 @@ public class CalendarDisplay extends JPanel {
                 @Override
                 public void actionPerformed(ActionEvent e) {
 
-                    //spec[] is formatted: { year, month, day, type } (type being the event type; not useful here)
+                	 //spec[] is formatted: { year, month, day, type } (type being the event type; not useful here)
                     int[] spec = new int[] { -1, -1, -1, -1 };
 
                     //populate spec array with correct daya
@@ -631,7 +625,6 @@ public class CalendarDisplay extends JPanel {
                 @Override
                 public void actionPerformed(ActionEvent e) {
 
-                    //e.getActionCommand() will contain a day value
                     int newDay = Integer.parseInt(e.getActionCommand());
                     weekday = (weekday + newDay - day) % 7;
                     if (weekday < 0)
@@ -648,7 +641,6 @@ public class CalendarDisplay extends JPanel {
                 @Override
                 public void actionPerformed(ActionEvent e) {
 
-                    //e.getActionCommand will contain a month value
                     int newMonth = Integer.parseInt(e.getActionCommand());
                     weekday -= day - 1;
                     day = 1;
@@ -669,12 +661,12 @@ public class CalendarDisplay extends JPanel {
             default: System.err.print("Error in CalendarDisplay.getActionListener()"); System.exit(1);
         }
 
-        return null; //to satisfy compiler; should never get executed
+        return null; 
     }
 
     private void updateWeekdayDisplay() {
 
-        //updates the weekdays shown at the bottom of the screen
+    	 //updates the weekdays shown at the bottom of the screen
         if (weeksShown && displayStatus == Consts.YEAR) {
             this.remove(weekdaysPanel);
             weeksShown = false;
@@ -688,7 +680,7 @@ public class CalendarDisplay extends JPanel {
 
     public void deleteAffectedPanels(int afYear, int afMonth, int afDay, int type) {
 
-        //if a yearly event is deleted, delete most panels
+    	 //if a yearly event is deleted, delete most panels
         if (type == Consts.YEARLY_DATE) {
 
             Iterator<String> itr = loadedPanels[Consts.MONTH].iterator();
@@ -727,7 +719,6 @@ public class CalendarDisplay extends JPanel {
             while (itr.hasNext())
                 loadedPanels[Consts.WEEK].remove(itr.next());
 
-            //loadedPanels[Consts.WEEK].clear();
         } else if (type == Consts.DAYLY_DATE) {
 
             Iterator<String> itr = loadedPanels[Consts.DAY].iterator();
@@ -746,7 +737,6 @@ public class CalendarDisplay extends JPanel {
             while (itr.hasNext())
                 loadedPanels[Consts.DAY].remove(itr.next());
 
-            //loadedPanels[Consts.WEEK].clear();
         }
 
         //otherwise just get rid of affected panels
@@ -829,11 +819,12 @@ public class CalendarDisplay extends JPanel {
 
     private void parseDate(String date) {
 
-        //loads date into calendar display
+    	 //loads date into calendar display
         StringTokenizer st = new StringTokenizer(date, "/");
         day = Integer.parseInt(st.nextToken());
         weekday = Integer.parseInt(st.nextToken());
-        if (weekday == 7) //sunday should translate to weekday 0
+      //sunday should translate to weekday 0
+        if (weekday == 7) 
             weekday = 0;
         month = Integer.parseInt(st.nextToken());
         year = Integer.parseInt(st.nextToken());

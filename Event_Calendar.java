@@ -1,5 +1,5 @@
-//Brandon Mazur - CSCI230 Final Project
 
+package a;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -10,23 +10,23 @@ import java.util.*;
 import java.text.SimpleDateFormat;
 import java.io.PrintWriter;
 
+@SuppressWarnings("serial")
 class PlannerDisplay extends JPanel {
 
     public CalendarDisplay calendarDisplay;
     public ModificationPanel modificationPanel;
-    public TodoPanel todoPanel;
+
     public ArrayList<CalendarEvent> data;
     public boolean backToCalendar = true;
 
     private final String calendarCard = "calcard";
     private final String modificationCard = "modcard";
     private final String todoCard = "todocard";
-    private final String manualCard = "mancard";
     public String currentPanel;
 
     public PlannerDisplay() {
 
-        //gets current date in day/weekday/month/year format
+    	//gets current date in day/weekday/month/year format
         String current_date = (new SimpleDateFormat("dd/uu/MM/yyyy")).format(new Date());
         this.setBackground(Consts.bg);
 
@@ -34,14 +34,10 @@ class PlannerDisplay extends JPanel {
         modificationPanel = new ModificationPanel(current_date, this);
         this.loadData();
         calendarDisplay = new CalendarDisplay(current_date, this);
-        todoPanel = new TodoPanel(this, current_date);
-        UserManual manual = new UserManual(this);
 
         this.setLayout(new CardLayout());
         this.add(calendarDisplay, calendarCard);
         this.add(modificationPanel, modificationCard);
-        this.add(todoPanel, todoCard);
-        this.add(manual, manualCard);
         currentPanel = calendarCard;
         ((CardLayout)this.getLayout()).show(this, calendarCard);
     }
@@ -61,7 +57,7 @@ class PlannerDisplay extends JPanel {
             //load file into program
             while (fileScan.hasNextLine()) {
 
-                st = new StringTokenizer(fileScan.nextLine(),"@");
+                st = new StringTokenizer(fileScan.nextLine(),"/");
 
                 if (st.countTokens() != 5 && st.countTokens() != 6)
                     throw new Exception();
@@ -76,14 +72,14 @@ class PlannerDisplay extends JPanel {
             fileScan.close();
 
         } catch (Exception e) {
-            //if file doesn't exist or is malformatted, offer to create a new default file
+        	 //if file doesn't exist or is malformatted, offer to create a new default file
             if (fileScan != null)
                 fileScan.close();
 
             data.clear();
             int selectedOption = JOptionPane.showConfirmDialog(null,
-                    "Generate new default data.cld?",
-                    "Error loading \'data.cld\'",
+                    "Generezi un nou fisier data.cld?",
+                    "Eroare incarcare \'data.cld\'",
                     JOptionPane.YES_NO_OPTION);
             if (selectedOption == JOptionPane.YES_OPTION) {
                 this.generateDefaultFile();
@@ -97,10 +93,10 @@ class PlannerDisplay extends JPanel {
     public JMenuBar getMenuBar() {
 
         JMenuBar menuBar;
-        JMenu file, help;
-        JMenuItem exit, nosave, manual;
+        JMenu file;
+        JMenuItem exit, nosave;
 
-        exit = new JMenuItem("Exit");
+        exit = new JMenuItem("Inchide");
         exit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -108,7 +104,7 @@ class PlannerDisplay extends JPanel {
             }
         });
 
-        nosave = new JMenuItem("Exit Without Saving");
+        nosave = new JMenuItem("Inchide fara salvare");
         nosave.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -117,35 +113,22 @@ class PlannerDisplay extends JPanel {
             }
         });
 
-        file = new JMenu("File");
+        file = new JMenu("Fisier");
         file.add(exit);
         file.add(nosave);
 
-        manual = new JMenuItem("User Manual");
-        manual.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                showManual();
-            }
-        });
-
-        help = new JMenu("Help");
-        help.add(manual);
-
+      
         menuBar = new JMenuBar();
         menuBar.add(file);
-        menuBar.add(help);
+ 
 
         return menuBar;
     }
 
-    private void showManual() {
-        ((CardLayout)this.getLayout()).show(this, manualCard);
-    }
 
     public void toModCard(int[] spec) {
 
-        //clears and switches to modification card
+    	//clears and switches to modification card
         modificationPanel.clear();
         modificationPanel.setFields(spec);
         ((CardLayout)this.getLayout()).show(this, modificationCard);
@@ -165,12 +148,12 @@ class PlannerDisplay extends JPanel {
 
     private void generateDefaultFile() {
 
-        PrintWriter out = null; //to satisfy compiler
+        PrintWriter out = null; 
 
         try {
             out = new PrintWriter("data.cld");
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Error generating file", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Eroare generare fisier", "Error", JOptionPane.ERROR_MESSAGE);
             System.exit(1);
         }
         out.close();
@@ -202,7 +185,7 @@ public class Event_Calendar {
 
     private static void createAndShowGUI() {
 
-        JFrame frame = new JFrame("Virtual Planner");
+        JFrame frame = new JFrame("Agenda electronica");
         frame.setSize(1100, 650);
 
         PlannerDisplay display = new PlannerDisplay();
@@ -217,13 +200,12 @@ public class Event_Calendar {
     }
 
     private static void saveData() {
-
-        PrintWriter out = null; //to satisfy compiler
+        PrintWriter out = null; 
 
         try {
             out = new PrintWriter("data.cld");
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Error saving file", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Eroare salvare fisier", "Error", JOptionPane.ERROR_MESSAGE);
             System.exit(1);
         }
 
@@ -231,27 +213,27 @@ public class Event_Calendar {
         CalendarEvent event;
         StringBuilder outStr;
 
-        //save data in the proper format:
-        //@ type @ year @ month @ day @ description @
+      //save data in the proper format:
+        // / type / year / month / day /time/ description /
         while (itr.hasNext()) {
 
             event = itr.next();
             outStr = new StringBuilder();
 
-            outStr.append('@');
+            outStr.append('/');
             outStr.append(event.getType());
-            outStr.append('@');
+            outStr.append('/');
             outStr.append(event.getYear());
-            outStr.append('@');
+            outStr.append('/');
             outStr.append(event.getMonth());
-            outStr.append('@');
+            outStr.append('/');
             outStr.append(event.getDay());
-            outStr.append('@');
+            outStr.append('/');
             outStr.append(event.getTitle());
-            outStr.append('@');
+            outStr.append('/');
             if (event.getDescription().length() != 0) {
                 outStr.append(event.getDescription());
-                outStr.append('@');
+                outStr.append('/');
             }
 
             out.println(outStr.toString());
@@ -263,4 +245,7 @@ public class Event_Calendar {
     public static void noSave() {
         save = false;
     }
+    
+    
+    
 }
