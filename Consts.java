@@ -1,5 +1,5 @@
-//Brandon Mazur - CSCI230 Final Project
 
+package a;
 import java.awt.Color;
 
 public class Consts {
@@ -27,22 +27,26 @@ public class Consts {
     public final static int RADIO_LISTENER = 21;
     public final static int DELETE_LISTENER = 22;
 
-    public final static String[] cardNames = { "yearcard", "monthcard", "weekcard","daycards" };
-    public final static String[] WEEK_ABBR = { "Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat" };
+   public final static String[] cardNames = { "yearcard", "monthcard", "weekcard","daycards" };
+    public final static String[] WEEK_ABBR = { "Dum", "Lu", "Ma", "Mi", "Jo", "Vi", "Sam" };
     public final static int[] DAYS_IN_MONTH = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
     public final static int[] SUM_AT_MONTH = { 0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334 };
-    public final static String[] MONTH_NAME = { "January", "February", "March", "April",
-                                                 "May", "June", "July", "August",
-                                                 "September", "October", "November", "December" };
+    public final static String[] MONTH_NAME = { "Ianuarie", "Februarie", "Martie", "Aprilie", "Mai", "Iunie", "Iulie", "August",
+            									"Septembrie", "Octombrie", "Noiembrie", "Decembrie" };
 
-    public final static Color bg = new Color(60,125,110);
-    public final static Color modbg = new Color(80, 165, 180);
-    public final static Color modrb = new Color(90, 180, 190);
-    public final static Color modeditbg = new Color(115, 165, 85);
-    public final static Color modeditrb = new Color(125, 180, 95);
-    public final static Color todobg = new Color(230,200,160);
-    public final static Color todoinbg = new Color(250, 230, 170);
-    public final static Color manualbg = new Color(250, 235, 225);
-    public final static Color buttonbg = new Color(235,150,150);
+    public final static Color bg = new Color(255,182,193);
+    
+    public final static Color modbg = new Color(216,191,216);
+    
+    public final static Color modrb = new Color(221,160,221);
+
+    public final static Color modeditbg = new Color(106,90,205);
+
+    public final static Color modeditrb = new Color(106,90,205);
+
+
+    public final static Color buttonbg = new Color(255,192,203);
+
+
     public final static Color error = new Color(235,150,150);
 }

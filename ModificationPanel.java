@@ -1,5 +1,5 @@
-//Brandon Mazur - CSCI230 Final Project
 
+package a;
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import javax.swing.event.DocumentEvent;
@@ -8,15 +8,16 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.StringTokenizer;
 
+
+@SuppressWarnings("serial")
 public class ModificationPanel extends JPanel {
 
     private final int DESCRIPTION_MAX = 250;
     private final int TITLE_MAX = 40;
-    private final String topLabelDefault = "<html><font size='6' color='#000000'> Enter Event Information </font></html>";
-    private final String topLabelModify = "<html><font size='6' color='#600000'> Modify Event Information </font></html>";
+    private final String topLabelDefault = "<html><font size='6' color='#000000'> Adauga un eveniment </font></html>";
+    private final String topLabelModify = "<html><font size='6' color='#600000'> Modifica evenimentul </font></html>";
 
     private int currentDay, currentMonth, currentYear;
     private PlannerDisplay outref;
@@ -29,8 +30,8 @@ public class ModificationPanel extends JPanel {
     private CalendarEvent eventToModify;
 
     public ModificationPanel(String date, PlannerDisplay out_reference) {
-
-        //prepare panel basics
+    	
+    	//prepare panel basics
         this.parseDate(date);
         outref = out_reference;
         eventToModify = null;
@@ -39,9 +40,9 @@ public class ModificationPanel extends JPanel {
         JButton outButton, confirmButton;
 
         //setting up buttons
-        outButton = new JButton(new ImageIcon("out_arrow.png"));
-        confirmButton = new JButton(new ImageIcon("check.png"));
-        deleteButton = new JButton(new ImageIcon("delete.png"));
+        outButton = new JButton(new ImageIcon(ModificationPanel.class.getResource("/a/out_arrow.png")));
+        confirmButton = new JButton(new ImageIcon(ModificationPanel.class.getResource("/a/check.png")));
+        deleteButton = new JButton(new ImageIcon(ModificationPanel.class.getResource("/a/delete.png")));
         outButton.setBackground(Consts.buttonbg);
         confirmButton.setBackground(Consts.buttonbg);
         deleteButton.setBackground(Consts.buttonbg);
@@ -66,7 +67,7 @@ public class ModificationPanel extends JPanel {
         controlPanel.add(confirmButton);
 
         //set up description panel
-        titleLimit = new JLabel("<html><font size='4'> Characters: 0/" + TITLE_MAX + "</font></html>");
+        titleLimit = new JLabel("<html><font size='4'> Caractere: 0/" + TITLE_MAX + "</font></html>");
         title = new JTextArea();
         title.setLineWrap(true);
         title.setFont(new Font(title.getFont().getName(), Font.BOLD, 16));
@@ -74,30 +75,30 @@ public class ModificationPanel extends JPanel {
         title.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED, Color.DARK_GRAY, Color.BLACK));
         title.getDocument().addDocumentListener(new DocumentListener() {
             @Override
-            public void insertUpdate(DocumentEvent e) { titleLimit.setText("<html><font size='4'> Characters: "
+            public void insertUpdate(DocumentEvent e) { titleLimit.setText("<html><font size='4'> Caractere: "
                     + title.getText().length() + '/' + TITLE_MAX + " </font></html>"); }
 
             @Override
-            public void removeUpdate(DocumentEvent e) { titleLimit.setText("<html><font size='4'> Characters: "
+            public void removeUpdate(DocumentEvent e) { titleLimit.setText("<html><font size='4'> Caractere: "
                     + title.getText().length() + '/' + TITLE_MAX + " </font></html>"); }
 
             @Override
-            public void changedUpdate(DocumentEvent e) { titleLimit.setText("<html><font size='4'> Characters: " +
+            public void changedUpdate(DocumentEvent e) { titleLimit.setText("<html><font size='4'> Caractere: " +
                     title.getText().length() + '/' + TITLE_MAX + " </font></html>"); }
         });
-        descLimit = new JLabel("<html><font size='4'> Characters: 0/" + DESCRIPTION_MAX + "</font></html>");
+        descLimit = new JLabel("<html><font size='4'> Caractere: 0/" + DESCRIPTION_MAX + "</font></html>");
         description = new JTextArea();
         description.getDocument().addDocumentListener(new DocumentListener() {
             @Override
-            public void insertUpdate(DocumentEvent e) { descLimit.setText("<html><font size='4'> Characters: "
+            public void insertUpdate(DocumentEvent e) { descLimit.setText("<html><font size='4'> Caractere: "
                     + description.getText().length() + '/' + DESCRIPTION_MAX + " </font></html>"); }
 
             @Override
-            public void removeUpdate(DocumentEvent e) { descLimit.setText("<html><font size='4'> Characters: "
+            public void removeUpdate(DocumentEvent e) { descLimit.setText("<html><font size='4'> Caractere: "
                     + description.getText().length() + '/' + DESCRIPTION_MAX + " </font></html>"); }
 
             @Override
-            public void changedUpdate(DocumentEvent e) { descLimit.setText("<html><font size='4'> Characters: " +
+            public void changedUpdate(DocumentEvent e) { descLimit.setText("<html><font size='4'> Caractere: " +
                         description.getText().length() + '/' + DESCRIPTION_MAX + " </font></html>"); }
         });
         description.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED, Color.DARK_GRAY, Color.BLACK));
@@ -107,10 +108,10 @@ public class ModificationPanel extends JPanel {
         descriptionPanel.setPreferredSize(new Dimension(600,800));
         descriptionPanel.setLayout(new GridLayout(0,1));
         descriptionPanel.setBorder(BorderFactory.createEmptyBorder(10,50,20,50));
-        descriptionPanel.add(new JLabel("<html><font size='5' color='#000000'> Title </font></html>"));
+        descriptionPanel.add(new JLabel("<html><font size='5' color='#000000'> Titlu </font></html>"));
         descriptionPanel.add(title);
         descriptionPanel.add(titleLimit);
-        descriptionPanel.add(new JLabel("<html><font size='5' color='#000000'> Description </font></html>"));
+        descriptionPanel.add(new JLabel("<html><font size='5' color='#000000'> Descriere </font></html>"));
         descriptionPanel.add(new JScrollPane(description));
         descriptionPanel.setOpaque(false);
         descriptionPanel.add(descLimit);
@@ -127,26 +128,26 @@ public class ModificationPanel extends JPanel {
         yearText.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED, Color.DARK_GRAY, Color.BLACK));
         yearText.setBackground(Color.WHITE);
 
-        //radio buttons for date panel
-        onetimeRadioButton = new JRadioButton("One-time");
+      //radio buttons for date panel
+        onetimeRadioButton = new JRadioButton("Doar o data");
         onetimeRadioButton.setActionCommand("onetime");
         onetimeRadioButton.addActionListener(this.getActionListener(Consts.RADIO_LISTENER));
         onetimeRadioButton.setSelected(true);
         onetimeRadioButton.setEnabled(false);
         onetimeRadioButton.setOpaque(false);
-        yearlyRadioButton = new JRadioButton("Yearly");
+        yearlyRadioButton = new JRadioButton("Anual");
         yearlyRadioButton.setActionCommand("yearly");
         yearlyRadioButton.addActionListener(this.getActionListener(Consts.RADIO_LISTENER));
         yearlyRadioButton.setEnabled(false);
         yearlyRadioButton.setOpaque(false);
         
-        monthlyRadioButton = new JRadioButton("Monthly");
+        monthlyRadioButton = new JRadioButton("Lunar");
         monthlyRadioButton.setActionCommand("monthly");
         monthlyRadioButton.addActionListener(this.getActionListener(Consts.RADIO_LISTENER));
         monthlyRadioButton.setEnabled(false);
         monthlyRadioButton.setOpaque(false);
         
-        daylyRadioButton = new JRadioButton("Dayly");
+        daylyRadioButton = new JRadioButton("Zilnic");
         daylyRadioButton.setActionCommand("dayly");
         daylyRadioButton.addActionListener(this.getActionListener(Consts.RADIO_LISTENER));
         daylyRadioButton.setEnabled(false);
@@ -158,7 +159,7 @@ public class ModificationPanel extends JPanel {
         eventGroup.add(monthlyRadioButton);
         eventGroup.add(daylyRadioButton);
 
-        //put together radio panel
+      //put together radio panel
         radioPanel = new JPanel(new GridLayout(4,1,20,6));
         radioPanel.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
         radioPanel.setBackground(Consts.modrb);
@@ -167,7 +168,7 @@ public class ModificationPanel extends JPanel {
         radioPanel.add(monthlyRadioButton);
         radioPanel.add(daylyRadioButton);
 
-        //finish date panel
+      //finish date panel
         datePanel = new JPanel();
         datePanel.setLayout(new BoxLayout(datePanel, BoxLayout.Y_AXIS));
         datePanel.setOpaque(false);
@@ -180,13 +181,13 @@ public class ModificationPanel extends JPanel {
         tempPanel.setOpaque(false);
         datePanel.add(tempPanel);
         datePanel.add(Box.createRigidArea(new Dimension(0,50)));
-        datePanel.add(new JLabel("<html><font size='5' color='#000000'> Day </font></html>", JLabel.LEFT));
+        datePanel.add(new JLabel("<html><font size='5' color='#000000'> Ziua </font></html>", JLabel.LEFT));
         datePanel.add(dayText);
         datePanel.add(Box.createRigidArea(new Dimension(0,50)));
-        datePanel.add(new JLabel("<html><font size='5' color='#000000'> Month </font></html>"));
+        datePanel.add(new JLabel("<html><font size='5' color='#000000'> Luna </font></html>"));
         datePanel.add(monthText);
         datePanel.add(Box.createRigidArea(new Dimension(0,50)));
-        datePanel.add(new JLabel("<html><font size='5' color='#000000'> Year </font></html>"));
+        datePanel.add(new JLabel("<html><font size='5' color='#000000'> Anul </font></html>"));
         datePanel.add(yearText);
         datePanel.add(Box.createRigidArea(new Dimension(0,50)));
         datePanel.add(radioPanel);
@@ -203,12 +204,12 @@ public class ModificationPanel extends JPanel {
     private ActionListener getActionListener(int code) {
 
         switch (code) {
-
-            //listener for the back button
+        
+        //listener for the back button
             case Consts.OUT_LISTENER : return new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    //go back to previously shown panel
+                	 //go back to previously shown panel
                     outref.currentPanel = outref.backToCalendar
                             ? outref.getCalendarCard() : outref.getTodoCard();
                     ((CardLayout)outref.getLayout()).show(outref, outref.backToCalendar
@@ -231,7 +232,7 @@ public class ModificationPanel extends JPanel {
                         valid = false;
                     if (!validTitle(all_errors))
                         valid = false;
-
+              
                     //if errors display them
                     if (!valid)
                         JOptionPane.showMessageDialog(null, all_errors.toString(),
@@ -265,21 +266,23 @@ public class ModificationPanel extends JPanel {
                         //new events
                         if (eventToModify == null) {
 
-                            //add new task to data
+                        	 //add new task to data
+                   
                             outref.data.add(new CalendarDate(outref.modificationPanel, year, month, day,
                                         title.getText(), description.getText(), isYearly, isMonthly, isDayly));
 
                             outref.calendarDisplay.deleteAffectedPanels(year, month, day,
                                     (isYearly ? Consts.YEARLY_DATE : 0) + (isMonthly ? Consts.MONTHLY_DATE : 0)+ (isDayly ? Consts.DAYLY_DATE : 0));
 
-                            outMsg = "Event created";
+                            
+                            outMsg = "Eveniment creat";
                         }
 
                         //modifying events
                         else {
 
                             if (JOptionPane.showConfirmDialog(null,
-                                    "Would you like to modify this event?", "Confirm:",
+                                    "Doriti sa modificati acest evenimet?", "Confirm:",
                                     JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 
                                 CalendarEvent newEvent;
@@ -297,11 +300,11 @@ public class ModificationPanel extends JPanel {
                                 outref.calendarDisplay.deleteAffectedPanels(eventToModify.getYear(),
                                         eventToModify.getMonth(), eventToModify.getDay(), eventToModify.getType());
 
-                                outMsg = "Event modified";
+                                outMsg = "Eveniment modificat";
                             }
 
                             else
-                                outMsg = "";
+                                outMsg = "Nu s-a putut modifica evenimentul.";
                         }
 
                         //if no change is made then don't do anything
@@ -309,8 +312,7 @@ public class ModificationPanel extends JPanel {
                             JOptionPane.showMessageDialog(null, outMsg);
                             Collections.sort(outref.data);
                             outref.calendarDisplay.updateDisplay();
-                            outref.todoPanel.clearPanel();
-                            outref.todoPanel.loadPanel();
+                         
                         }
 
                         //go back to previous panel
@@ -322,7 +324,7 @@ public class ModificationPanel extends JPanel {
                 }
             };
 
-            //listener for radio buttons
+          //listener for radio buttons
             case Consts.RADIO_LISTENER : return new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -373,24 +375,24 @@ public class ModificationPanel extends JPanel {
                 @Override
                 public void actionPerformed(ActionEvent e) {
 
-                    //makes sure there's an event to delete
+                	//makes sure there's an event to delete
                     if (eventToModify != null) {
 
-                        //confirm deletion
+                    	  //confirm deletion
                         int selectedOption = JOptionPane.showConfirmDialog(null,
-                                "Would you like to delete this event?", "Confirm:", JOptionPane.YES_NO_OPTION);
+                                "Doriti sa stergeti acest eveniment?", "Confirm:", JOptionPane.YES_NO_OPTION);
                         if (selectedOption == JOptionPane.YES_OPTION) {
 
-                            //remove the event
+                        	//remove the event
                             outref.data.remove(eventToModify);
                             outref.calendarDisplay.deleteAffectedPanels(eventToModify.getYear(),
                                     eventToModify.getMonth(), eventToModify.getDay(), eventToModify.getType());
 
-                            //fix up panels and data as a result of deletion
+                          //fix up panels and data as a result of deletion
                             Collections.sort(outref.data);
                             outref.calendarDisplay.updateDisplay();
-                            outref.todoPanel.clearPanel();
-                            outref.todoPanel.loadPanel();
+   
+                         
                         }
 
                         //go back to previous panel
@@ -405,8 +407,9 @@ public class ModificationPanel extends JPanel {
             default: System.err.print("Error in CalendarDisplay.getActionListener()"); System.exit(1);
         }
 
-        return null; //to satisfy compiler; should never get executed
+        return null; 
     }
+
 
     private boolean validDate(StringBuilder errors) {
 
@@ -438,6 +441,7 @@ public class ModificationPanel extends JPanel {
         }
         else month = currentMonth;
 
+        
         //check day
         if (!daylyRadioButton.isSelected())try {
             day = Integer.parseInt(dayText.getText());
@@ -451,7 +455,7 @@ public class ModificationPanel extends JPanel {
 
         //final check
         if (!(day > 0 && month > 0 && year > 0)) {
-            errors.append("Invalid Date\n"+ day +"."+ month+"." + year);
+            errors.append("Data incorecta\n"+ day +"."+ month+"." + year);
             return false;
         }
         return true;
@@ -459,49 +463,52 @@ public class ModificationPanel extends JPanel {
 
     private boolean validTitle(StringBuilder errors) {
 
-        //double check for title validity
+    	//double check for title validity
         boolean valid = true;
         String text = title.getText();
 
-        //no @ to ruin storage
+      //no @ to ruin storage
         if (text.contains("@")) {
             title.setBackground(Consts.error);
-            errors.append("No '@' allowed in title\n");
+            errors.append("Nu se accepta '@' in titlu\n");
             valid = false;
+            
         }
 
         if (text.length() > TITLE_MAX) {
             title.setBackground(Consts.error);
-            errors.append("Title cannot be over " + TITLE_MAX + " characters\n");
+            errors.append("\nTitlul nu poate depasi " + TITLE_MAX + " caractere\n");
             valid = false;
         }
 
         else if (text.length() == 0) {
             title.setBackground(Consts.error);
-            errors.append("Title cannot be empty\n");
+            errors.append("\nTitlul nu poate fi gol\n");
             valid = false;
         }
 
         return valid;
     }
-
+      
+  
+   
     private boolean validDescription(StringBuilder errors) {
 
-        //double check for description validity
+    	//double check for description validity
         boolean valid = true;
         String text = description.getText();
 
-        //no @ to ruin storage
-        if (text.contains("@")) {
+    
+        if (text.contains("/")) {
             description.setBackground(Consts.error);
-            errors.append("No '@' allowed in description\n");
+            errors.append("Nu se accepta @ in descriere\n");
             valid = false;
         }
 
         //max length cannot be exceeded
         if (text.length() > DESCRIPTION_MAX) {
             description.setBackground(Consts.error);
-            errors.append("Description cannot be over " + DESCRIPTION_MAX + " characters\n");
+            errors.append("Descrierea nu poate depasi " + DESCRIPTION_MAX + " caractere\n");
             valid = false;
         }
 
@@ -510,7 +517,7 @@ public class ModificationPanel extends JPanel {
 
     private void parseDate(String date) {
 
-        //load date into panel
+    	//load date into panel
         StringTokenizer st = new StringTokenizer(date, "/");
         currentDay = Integer.parseInt(st.nextToken());
         currentMonth = Integer.parseInt(st.nextToken());
@@ -520,7 +527,7 @@ public class ModificationPanel extends JPanel {
 
     public void setFields(int[] spec) {
 
-        //spec[] is a int array of size 4, of format { year, month, int, type }
+    	 //spec[] is a int array of size 4, of format { year, month, int, type }
         //set up texts to match the event
         yearText.setText(spec[0] > 0 ? Integer.toString(spec[0]) : "");
         monthText.setText(spec[1] > 0 ? Integer.toString(spec[1]) : "");
@@ -589,7 +596,6 @@ public class ModificationPanel extends JPanel {
 
             }
 
-            //date mod looks a bit different than add
             deleteButton.setEnabled(true);
             this.setBackground(Consts.modeditbg);
             radioPanel.setBackground(Consts.modeditrb);
@@ -604,13 +610,13 @@ public class ModificationPanel extends JPanel {
     public void setTitleDesc(String ti, String desc) {
         title.setText(ti);
         description.setText(desc);
-        titleLimit.setText("<html><font size='4'> Characters: " + ti.length() + '/' + TITLE_MAX + "</font></html>");
-        descLimit.setText("<html><font size='4'> Characters: " + desc.length() + '/' + DESCRIPTION_MAX + "</font></html>");
+        titleLimit.setText("<html><font size='4'> Caractere: " + ti.length() + '/' + TITLE_MAX + "</font></html>");
+        descLimit.setText("<html><font size='4'> Caractere: " + desc.length() + '/' + DESCRIPTION_MAX + "</font></html>");
     }
 
     public void clear() {
 
-        //clear everything to be default
+    	 //clear everything to be default
         onetimeRadioButton.setSelected(true);
         yearlyRadioButton.setSelected(false);
         monthlyRadioButton.setSelected(false);
